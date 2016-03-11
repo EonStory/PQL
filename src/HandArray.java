@@ -13,11 +13,11 @@ public class HandArray {
 	//public HashMap<Integer, String> bobby = new HashMap<Integer, String>();
 	
 	long[] id;	
-	byte[] board;
-	short[] stacks;
-	byte[] holes;
-	byte[] raises;
-	byte ante;
+	byte[] board;//format: negative number means last card, -60 is no cards
+	short[] stacks;//negative number last stack
+	byte[] holecards;//normal. we know the number of players from stacks
+	short[] actions;
+	short[] blinds;//[bb,sb,ante,bb,sb,ante,bb,sb,ante,bb,sb,ante,bb,....,ante]
 	
 	public final byte NO_BOARD_CARDS = -60;
 	public final byte NO_HOLE_CARDS = -69;	
@@ -77,8 +77,7 @@ public class HandArray {
 		
 		short[] stacksMerged = new short[stacks.length + numberOfExtraStacks];
 		currentIndex = 0;
-		for (int i = 0; i < hab.handObjects.size(); i++) {
-			
+		for (int i = 0; i < hab.handObjects.size(); i++) {			
 			for (int j = 0; j < hab.handObjects.get(i).stacks.size() - 1; j++) {
 				stacksMerged[stacks.length + currentIndex] = hab.handObjects.get(i).stacks.get(j);
 				currentIndex++;
@@ -90,12 +89,61 @@ public class HandArray {
 		}
 		
 		//merge holecards
+		int numberOfExtraHoleCards = 0;
+		for (HandObject ho: hab.handObjects) {
+			numberOfExtraStacks += ho.holeCards.size();
+		}
 		
+		byte[] holecardsMerged = new byte[holecards.length + numberOfExtraHoleCards];
+		for (int i = 0; i < holecards.length; i++) {
+			holecardsMerged[i] = holecards[i];
+		}
 		
+		currentIndex = 0;
+		for (HandObject ho: hab.handObjects) {
+			for (int i = 0; i < ho.holeCards.size(); i++) {
+				holecardsMerged[holecards.length + currentIndex] = ho.holeCards.get(i);
+				currentIndex++;
+			}	
+		}		
 		
+		//merge actions
+		int numberOfExtraActions = 0;
+		for (HandObject ho: hab.handObjects) {
+			numberOfExtraStacks += ho.actions.actionList.size();
+		}
 		
-	}
-	
-	
-	
+		short[] actionsMerged = new short[actions.length + numberOfExtraActions];
+		for (int i = 0; i < actions.length; i++) {
+			actionsMerged[i] = actions[i];
+		}
+		
+		currentIndex = 0;
+		for (HandObject ho: hab.handObjects) {
+			for (int i = 0; i < ho.actions.actionList.size(); i++) {
+				actionsMerged[actions.length + currentIndex] = ho.actions.actionList.get(i);
+				currentIndex++;
+			}			
+		}
+		
+		//merge blinds
+		int numberOfExtraBlinds = 0;
+		for (HandObject ho: hab.handObjects) {
+			numberOfExtraBlinds += ho.blinds.size();
+		}
+		
+		short[] blindsMerged = new short[blinds.length + numberOfExtraBlinds];
+		for (int i = 0; i < blinds.length; i++) {
+			blindsMerged[i] = blinds[i];
+		}
+		
+		currentIndex = 0;
+		for (HandObject ho: hab.handObjects) {
+			for (int i = 0; i < ho.blinds.size(); i++) {
+				blindsMerged[blinds.length + currentIndex] = ho.blinds.get(i);
+				currentIndex++;
+			}			
+		}
+		
+	}	
 }

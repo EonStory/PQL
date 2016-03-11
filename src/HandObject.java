@@ -11,6 +11,7 @@ public class HandObject {
 	ArrayList<Byte> holeCards = new ArrayList<Byte>();
 	Actions actions = new Actions();
 	ArrayList<Short> stacks = new ArrayList<Short>();
+	ArrayList<Short> blinds = new ArrayList<Short>();
 	
 	
 	

@@ -6,7 +6,7 @@ public class Actions {
 	private final short checkValue = -20;
 	private final short foldValue = -400;
 	
-	private ArrayList<Short> actionList = new ArrayList<Short>();
+	public ArrayList<Short> actionList = new ArrayList<Short>();
 	
 	public Actions() {
 		
@@ -47,4 +47,5 @@ public class Actions {
 		}
 		return s;
 	}
+	
 }
