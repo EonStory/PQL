@@ -6,53 +6,50 @@ public class Actions {
 	private final short callValue = -1;
 	private final short checkValue = -11;
 	private final short foldValue = -111;
-	//final nBet is stored as negative number.
+	// final nBet is stored as negative number.
 	private final short maxBetSize = Short.MAX_VALUE + foldValue * max_players;
-	
+
 	public ArrayList<Short> actionList = new ArrayList<Short>();
-	
+
 	public Actions() {
-		
+
 	}
-	
-	public void addCall(){
+
+	public void addCall() {
 		actionList.add(callValue);
 	}
-	
-	public void addFold(){
+
+	public void addFold() {
 		actionList.add(foldValue);
 	}
-	
-	public void addCheck(){
+
+	public void addCheck() {
 		actionList.add(checkValue);
 	}
-	
-	//nBet == 1bet, 2bet, 3bet etc... (n > 0)
+
+	// nBet == 1bet, 2bet, 3bet etc... (n > 0)
 	public void addNBet(short nBetSize) {
 		actionList.add(nBetSize);
 	}
-	
+
 	public int getNumberOfActions() {
 		return actionList.size();
 	}
-	
+
 	public String toString() {
 		String s = "";
-		for (Short a: actionList) {
+		for (Short a : actionList) {
 			if (a == callValue) {
 				s += "call, ";
-			}
-			else if (a == checkValue) {
+			} else if (a == checkValue) {
 				s += "check, ";
-			}
-			else if (a == foldValue) {
+			} else if (a == foldValue) {
 				s += "fold, ";
-			}
-			else {
+			} else {
 				s += "nBet to " + a + ", ";
 			}
 		}
 		return s;
 	}
-	
+
 }

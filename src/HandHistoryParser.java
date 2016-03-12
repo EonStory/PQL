@@ -11,8 +11,7 @@ public class HandHistoryParser {
 		ho.handId = Long.parseLong(lines[0].substring(startOfId, endOfId));
 		
 		int numberOfPlayers = 0;
-		
-		
+
 		return null;
 	}
 }
