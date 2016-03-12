@@ -57,11 +57,11 @@ public class HandArray {
 			}
 			else {//for all but the last card!
 				for (int j = 0; j < hab.handObjects.get(i).boardCards.size() - 1; j++) {
-					boardMerged[board.length + currentIndex] = hab.handObjects.get(i).boardCards.get(j);
+					boardMerged[board.length + currentIndex] = hab.handObjects.get(i).boardCards.get(j).toByte();
 					currentIndex++;
 				}
 				
-				int lastBoardCard = hab.handObjects.get(i).boardCards.get(hab.handObjects.get(i).boardCards.size() - 1);				
+				byte lastBoardCard = hab.handObjects.get(i).boardCards.get(hab.handObjects.get(i).boardCards.size() - 1).toByte();				
 				boardMerged[board.length + currentIndex] = 	(byte) (-lastBoardCard); //java means i have to use casts
 				currentIndex++;
 			}			
@@ -91,7 +91,7 @@ public class HandArray {
 		//merge holecards
 		int numberOfExtraHoleCards = 0;
 		for (HandObject ho: hab.handObjects) {
-			numberOfExtraStacks += ho.holeCards.size();
+			numberOfExtraStacks += ho.holecards.size() * 2;
 		}
 		
 		byte[] holecardsMerged = new byte[holecards.length + numberOfExtraHoleCards];
@@ -101,8 +101,10 @@ public class HandArray {
 		
 		currentIndex = 0;
 		for (HandObject ho: hab.handObjects) {
-			for (int i = 0; i < ho.holeCards.size(); i++) {
-				holecardsMerged[holecards.length + currentIndex] = ho.holeCards.get(i);
+			for (int i = 0; i < ho.holecards.size(); i++) {
+				holecardsMerged[holecards.length + currentIndex] = ho.holecards.get(i).card1.toByte();
+				currentIndex++;
+				holecardsMerged[holecards.length + currentIndex] = ho.holecards.get(i).card2.toByte();
 				currentIndex++;
 			}	
 		}		

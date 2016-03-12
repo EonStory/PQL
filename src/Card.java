@@ -1,8 +1,12 @@
 import java.util.Arrays;
 
-public class Card implements Comparable<Card>{
+//includes a 53rd card to represent unknown card.
+//it has rank == 13 and suit == 4; and is printed as "??"
+public class Card {
 	
-	private static Card[] allCards = new Card[52];
+	private static Card[] allCards = new Card[53];
+	
+	public static final Card UNKNOWN_CARD;
 	
 	public final int rank;
 	public final int suit;
@@ -12,6 +16,9 @@ public class Card implements Comparable<Card>{
 	private static String[] suitNames = new String[] {"s","h","d","c"};
 	
 	public String toString() {
+		if (index == 52) {
+			return "??";
+		}
 		return rankNames[rank] + suitNames[suit];
 	}	
 	
@@ -31,24 +38,13 @@ public class Card implements Comparable<Card>{
 				counter++;
 			}
 		}
+		//unknown card
+		allCards[counter] = new Card(13, 4);
+		UNKNOWN_CARD = allCards[counter];
 	}
 	
 	public static Card getCard(int index) {
 		return allCards[index];
-	}
-	
-	public static boolean sameSuit(Card c1, Card c2) {
-		if (c1.suit == c2.suit) {
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean sameRank(Card c1, Card c2) {
-		if (c1.rank == c2.rank) {
-			return true;
-		}
-		return false;
 	}
 	
 	public static Card getCard(String rank, String suit) {		
@@ -60,54 +56,11 @@ public class Card implements Comparable<Card>{
 					}
 				}
 			}
-		}
-		
+		}		
 		throw new IllegalArgumentException("not in existence: " + rank + "" + suit);
-	}	
-	
-	public static Card getCard(char rank, int suit) {
-		String s = "";
-		s += rank;
-		return Card.getCard(s, suitNames[suit]);
 	}
 	
-	public static Card getCard(int rank, int suit) {
-		return Card.getCard(suit * 13 + rank);
+	public byte toByte() {
+		return (byte) index;
 	}
-	
-	//maps cards to the isomorphic group
-	public static Card[] cardsSimplified(Card[] c) {
-		//need to sort it baby!
-		Card[] cards = c.clone();
-		Arrays.sort(cards);
-		
-		boolean[] done = new boolean[cards.length];
-		for (int i = 0; i < done.length; i++) {
-			done[i] = false;
-		}
-		
-		Card[] results = new Card[cards.length];			
-		
-		for (int i = 0, suitsDone = 0; i < cards.length; i++) {
-			if (done[i] == true) {
-				continue;
-			}
-			for (int j = i; j < cards.length; j++) {
-				if (cards[i].suit == cards[j].suit) {
-					results[j] = Card.getCard(cards[j].rank, suitsDone);
-					done[j] = true;
-				}						
-			}
-			suitsDone++;
-		}
-		
-		Arrays.sort(results);
-		
-		return results;
-	}
-
-	@Override
-	public int compareTo(Card arg0) {		
-		return this.rank - arg0.rank;
-	}	
 }

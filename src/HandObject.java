@@ -8,8 +8,8 @@ public class HandObject {
 	long handId;
 	long time;
 	
-	List<Byte> boardCards = new ArrayList<Byte>();
-	List<Byte> holeCards = new ArrayList<Byte>();
+	List<Card> boardCards = new ArrayList<Card>();
+	List<Holecards> holecards = new ArrayList<Holecards>();
 	Actions actions = new Actions();
 	List<Short> stacks = new ArrayList<Short>();
 	List<Short> blinds = new ArrayList<Short>();
